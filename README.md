@@ -1,2 +1,34 @@
 # telegram-md
-Telegram Bot that converts plain text messages with markdown markup into markdown messages
+
+Serverless Telegram bot written in TypeScript using [grammY](https://grammy.dev/). It receives a message containing Markdown markup and replies with the rendered version when deployed on [Vercel](https://vercel.com/).
+
+## How it works
+
+- `api/webhook.ts` exposes a serverless webhook handler backed by grammY.
+- On every incoming update, the bot reposts the message using `parse_mode=Markdown`.
+- If Telegram reports a Markdown parsing error, the bot sends a friendly error response instead of crashing.
+
+## Deploy to Vercel
+
+1. **Create a Telegram bot** via [@BotFather](https://t.me/BotFather) and copy the API token.
+2. **Set up environment variables** in Vercel: go to *Project Settings ? Environment Variables* and define `TELEGRAM_BOT_TOKEN` with your bot token.
+3. **Install dependencies** locally (optional but recommended for testing):
+   ```
+   npm install
+   ```
+4. **Deploy** the project (e.g., `vercel --prod`). Vercel automatically builds and exposes the function at `/api/webhook` using the Node.js runtime.
+5. **Register the webhook** once deployment finishes:
+   ```
+   curl "https://api.telegram.org/bot<YOUR_TOKEN>/setWebhook?url=https://<your-project>.vercel.app/api/webhook"
+   ```
+6. **Test** by messaging your bot. Markdown snippets such as `**bold**`, `_italic_`, or `` `code` `` should render correctly.
+
+## Local testing (optional)
+
+Vercel CLI can emulate the webhook handler locally:
+
+```
+vercel dev
+```
+
+Then expose the local server with a tunneling tool (e.g., [ngrok](https://ngrok.com/)) and call `setWebhook` with the public URL for end-to-end testing. Ensure `TELEGRAM_BOT_TOKEN` is exported in your shell before running `vercel dev` so the local function can call Telegram.
