@@ -31,7 +31,7 @@ async function ensureBotInitialized() {
 
 bot.command("start", async (ctx) => {
   await ctx.reply(
-    "Send me a message that uses Markdown syntax and I'll respond with Telegram's rendered output."
+    "Send me a message that uses MarkdownV2 syntax and I'll respond with Telegram's rendered output."
   );
 });
 
@@ -49,7 +49,7 @@ bot.on("message:text", async (ctx) => {
 
   try {
     await ctx.reply(text, {
-      parse_mode: "Markdown",
+      parse_mode: "MarkdownV2",
       link_preview_options: { is_disabled: true },
       reply_to_message_id: ctx.message.message_id,
     });

@@ -1,12 +1,12 @@
 # telegram-md
 
-Serverless Telegram bot written in TypeScript using [grammY](https://grammy.dev/). It receives a message containing Markdown markup and replies with the rendered version when deployed on [Vercel](https://vercel.com/).
+Serverless Telegram bot written in TypeScript using [grammY](https://grammy.dev/). It receives a message containing MarkdownV2 markup and replies with the rendered version when deployed on [Vercel](https://vercel.com/).
 
 ## How it works
 
 - `api/webhook.ts` exposes a serverless webhook handler backed by grammY.
-- On every incoming update, the bot reposts the message using `parse_mode=Markdown`.
-- If Telegram reports a Markdown parsing error, the bot sends a friendly error response instead of crashing.
+- On every incoming update, the bot reposts the message using `parse_mode=MarkdownV2`.
+- If Telegram reports a MarkdownV2 parsing error, the bot sends a friendly error response instead of crashing.
 
 ## Deploy to Vercel
 
@@ -24,7 +24,7 @@ Serverless Telegram bot written in TypeScript using [grammY](https://grammy.dev/
    - You can export `TELEGRAM_BOT_TOKEN` once in your shell instead of prefixing the command every time.
    - Set `TELEGRAM_WEBHOOK_URL` in your environment to skip the `--url` flag.
    - Pass `--drop` to remove the webhook, or `--drop-pending-updates` to ask Telegram to discard queued updates while registering or deleting the webhook.
-6. **Test** by messaging your bot. Markdown snippets such as `**bold**`, `_italic_`, or `` `code` `` should render correctly.
+6. **Test** by messaging your bot. MarkdownV2 snippets such as `*bold*`, `_italic_`, or `` `code` `` should render correctly. If the Telegram client auto-formats your message, escape the special characters (e.g., send `\*bold\*`).
 
 ## Local testing (optional)
 
