@@ -16,6 +16,19 @@ bot.catch(({ error }) => {
   console.error("Unexpected bot error", error);
 });
 
+let botInitPromise: Promise<void> | null = null;
+
+async function ensureBotInitialized() {
+  if (!botInitPromise) {
+    botInitPromise = bot.init().catch((error) => {
+      botInitPromise = null;
+      throw error;
+    });
+  }
+
+  await botInitPromise;
+}
+
 bot.command("start", async (ctx) => {
   await ctx.reply(
     "Send me a message that uses Markdown syntax and I'll respond with Telegram's rendered output."
@@ -90,6 +103,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const update = parseUpdate(req.body);
+    await ensureBotInitialized();
     await bot.handleUpdate(update);
     res.status(200).json({ status: "processed" });
   } catch (error) {
