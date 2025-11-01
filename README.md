@@ -17,10 +17,13 @@ Serverless Telegram bot written in TypeScript using [grammY](https://grammy.dev/
    npm install
    ```
 4. **Deploy** the project (e.g., `vercel --prod`). Vercel automatically builds and exposes the function at `/api/webhook` using the Node.js runtime.
-5. **Register the webhook** once deployment finishes:
+5. **Register the webhook** once deployment finishes by running the helper script (replace the URL with your deployment):
    ```
-   curl "https://api.telegram.org/bot<YOUR_TOKEN>/setWebhook?url=https://<your-project>.vercel.app/api/webhook"
+   TELEGRAM_BOT_TOKEN=<YOUR_TOKEN> npm run set-webhook -- --url https://<your-project>.vercel.app/api/webhook
    ```
+   - You can export `TELEGRAM_BOT_TOKEN` once in your shell instead of prefixing the command every time.
+   - Set `TELEGRAM_WEBHOOK_URL` in your environment to skip the `--url` flag.
+   - Pass `--drop` to remove the webhook, or `--drop-pending-updates` to ask Telegram to discard queued updates while registering or deleting the webhook.
 6. **Test** by messaging your bot. Markdown snippets such as `**bold**`, `_italic_`, or `` `code` `` should render correctly.
 
 ## Local testing (optional)

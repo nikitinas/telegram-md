@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vercel dev",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "set-webhook": "node scripts/set-webhook.js"
   },
   "dependencies": {
     "grammy": "^1.21.0"
